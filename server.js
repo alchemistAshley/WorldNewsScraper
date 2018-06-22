@@ -6,24 +6,21 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-var db = require('./models');
+const db = require('./models');
 
-var PORT = 3000;
+const PORT = 3000;
 
-var app = express();
-
+const app = express();
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static('public'));
+app.use(express.static('views'));
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-// const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongoScraper';
-
-// mongoose.Promise = Promise;
-// mongoose.connect(MONGODB_URI);
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongoScraper';
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 app.get("/scrape", function(req, res) {
     axios.get("https://www.npr.org/sections/world/")
@@ -40,13 +37,16 @@ app.get("/scrape", function(req, res) {
             result.title = $(this).children("div").children("h2").text();
             result.teaser = $(this).children("div").children("p").children("a").text();
 
+            if (result.teaser == undefined) {
+                result.teaser = "";
+            }
 
             db.Article.create(result)
             .then(function(dbArticle) {
                 console.log(dbArticle);
             })
             .catch(function(error) {
-                return res.json(error);
+                console.log(error);
             });
         });
 
@@ -54,15 +54,52 @@ app.get("/scrape", function(req, res) {
     });
 });
 
-// app.get("/articles", function(req, res) {
-//     db.Article.find({})
+app.get("/", function(req, res) {
 
-//  ===========================================
-// })
+    db.Article.find({})
+    .then(function(dbArticle) {
+        res.render("index", dbArticle);
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
+});
 
-// TODO: finish routes get and post and delete articles/notes
+app.get("/articles", function(req, res) {
+    db.Article.find({})
+    .then(function(dbArticle) {
+        res.json(dbArticle);
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+});
 
+app.get("/articles/:id", function(req, res){
+    db.Article.findOne({ _id: req.params.id })
+    .populate("note")
+    .then(function(dbArticle) {
+        res.json(dbArticle);
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+});
 
+app.post("/articles/:id", function(req, res) {
+    db.Note.create(req.body)
+    .then(function(dbNote) {
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+    })
+    .then(function(dbArticle) {
+        res.json(dbArticle);
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+});
+
+// route for starring?
 
 app.listen(PORT, function() {
     console.log('Magic happening on localhost:' + PORT);

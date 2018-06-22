@@ -10,16 +10,21 @@ const ArticleSchema = new Schema({
     },
     link: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     title: {
         type: String,
-        required: true
+        required: true  
     },
     teaser: {
         type: String,
         required: true
     }, 
+    starred: {
+        type: Boolean,
+        default: false
+    },
     note: {
         type: Schema.Types.ObjectId,
         ref: "Note"

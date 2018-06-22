@@ -1,0 +1,74 @@
+<ul>
+    {{#each scraped}}
+    <li>
+      <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-media-top">
+                <img src="../assets/nnews.jpg" alt="placeholder image">
+            </div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title"><a href="{{this.link}}">{{this.title}}</a></h3>
+                <p>{{teaser}}</p>
+            </div>
+            <div class="uk-card-footer">
+                <a href="" data-id="{{this._id}}" class="star uk-icon-button" uk-icon="star"></a>
+                <a href="#" class="leave-note uk-button uk-button-text uk-margin-left" data-id="{{this._id}}" href="#modal-sections" uk-toggle="target: #modal-sections">Leave A Note</a>
+            </div>
+
+            <div id="modal-sections" uk-modal>
+                <div class="uk-modal-dialog">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div class="uk-modal-header">
+                        <h2 class="uk-modal-title">{{this.title}}</h2>
+                    </div>
+                    <div class="uk-modal-body">
+                        <div uk-alert class="notes">
+                            <a class="uk-alert-close" uk-close></a>
+                            {{#each note}}
+                            <p class="note-input">{{note.body}}</p>
+                            {{/each}}
+                        </div>
+                        <form>
+                            <div class="uk-margin">
+                                <textarea class="uk-textarea" id="bodyinput" rows="5" placeholder="Textarea">Leave a note...</textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="uk-modal-footer uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                        <button class="save-note uk-button uk-button-primary" data-id="{{this._id}}" type="button">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+    </li>
+    
+    {{/each}}
+</ul>
+
+
+{{!-- 
+<div id="modal-sections" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">HEADLINE</h2>
+        </div>
+        <div class="uk-modal-body">
+            <div uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            <form>
+                <div class="uk-margin">
+                    <textarea class="uk-textarea" rows="5" placeholder="Textarea">TEXTAREA TO LEAVE NOTE</textarea>
+                </div>
+            </form>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
+        </div>
+    </div>
+</div> --}}
