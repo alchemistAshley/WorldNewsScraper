@@ -32,7 +32,7 @@ app.get("/scrape", function(req, res) {
 
             let result = {};
 
-            result.image = $(this).children("div").children("div").children("a").children("img").attr("src");
+            // result.image = $(this).children("div").children("div").children("a").children("img").attr("src");
             result.link = $(this).children("div").children("div").children("a").attr("href");
             result.title = $(this).children("div").children("h2").text();
             result.teaser = $(this).children("div").children("p").children("a").text();

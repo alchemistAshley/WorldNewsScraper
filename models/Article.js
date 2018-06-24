@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
 
-    image: { 
-        data: String, 
-        contentType: String 
-    },
+    // image: { 
+    //     data: Buffer, 
+    //     contentType: String 
+    // },
     link: {
         type: String,
         required: true,
