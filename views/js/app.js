@@ -4,11 +4,11 @@
 
 
 
-$.getJSON("/articles", function(data) {
-    for (var i = 0; i < data.length; i++) {
-        res.render("scraped", { scraped: data });
-    }
-});
+// $.getJSON("/articles", function(data) {
+//     for (var i = 0; i < data.length; i++) {
+//         res.render("scraped", { scraped: data });
+//     }
+// });
 
 // when someone clicks on star save --> saved & saved --> not / & leave note: get's notes and can create new note; ability to delete note
 // $(".star").on("click", function() {

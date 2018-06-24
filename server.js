@@ -50,7 +50,7 @@ app.get("/scrape", function(req, res) {
             });
         });
 
-        res.send("Scrape Complete");
+        res.redirect("/");
     });
 });
 
@@ -58,7 +58,7 @@ app.get("/", function(req, res) {
 
     db.Article.find({})
     .then(function(dbArticle) {
-        res.render("index", dbArticle);
+        res.render("index", { article: dbArticle } );
     })
     .catch(function(error) {
         console.log(error);

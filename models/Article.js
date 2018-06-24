@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ArticleSchema = new Schema({
 
     image: { 
-        data: Buffer, 
+        data: String, 
         contentType: String 
     },
     link: {
