@@ -65,6 +65,7 @@ app.get("/", function(req, res) {
     });
 });
 
+// TODO: saved articles route 
 app.get("/articles", function(req, res) {
     db.Article.find({})
     .then(function(dbArticle) {
@@ -87,8 +88,10 @@ app.get("/articles/:id", function(req, res){
 });
 
 app.post("/articles/:id", function(req, res) {
+    console.log(req.body);
     db.Note.create(req.body)
     .then(function(dbNote) {
+        console.log("dbNote", dbNote);
         return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     })
     .then(function(dbArticle) {
@@ -98,8 +101,6 @@ app.post("/articles/:id", function(req, res) {
         res.json(error);
     });
 });
-
-// route for starring?
 
 app.listen(PORT, function() {
     console.log('Magic happening on localhost:' + PORT);
